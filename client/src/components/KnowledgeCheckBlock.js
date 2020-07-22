@@ -38,8 +38,13 @@ class KnowledgeCheckBlock extends Component {
     this.setState({
       isSubmit: false,
       selectedOption: ""
-    });
+    },);
   };
+
+  async fetchData(){
+    const response = await axios.get('http://localhost:5000/knowledge-check-blocks');
+    this.setState({ knowledgeCheck: response.data[0] });
+  }
 
   actionSection() {
     return this.state.isSubmit === false
@@ -49,11 +54,22 @@ class KnowledgeCheckBlock extends Component {
         this.renderFeedback();
   }
 
-  async componentDidMount() {
-    const response = await axios.get('http://localhost:5000/knowledge-check-blocks');
-    console.log(response.data[0]);
+  componentWillMount() {
+    localStorage.getItem('state') && this.setState({
+      ...JSON.parse(localStorage.getItem('state')),
+      isSubmit: JSON.parse(localStorage.getItem('isSubmit'))
+    });
+  }
 
-    this.setState({ knowledgeCheck: response.data[0] });
+  componentDidMount() {
+    if (!localStorage.getItem('state')){
+      this.fetchData();
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('state', JSON.stringify(this.state));
+    localStorage.setItem('isSubmit', JSON.stringify(this.state.isSubmit));
   }
 
   renderSubmitButton() {
