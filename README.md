@@ -20,6 +20,13 @@ What you choose to implement from there is up to you. :)
 
 ### Getting started
 
+To get the client up and running on your dev machine:
+
+1. `cd client`
+1. `yarn install` (or `npm install`)
+1. `yarn start` (or `npm start`)
+
+
 To get the REST API up and running on your dev machine:
 
 1. `cd server`
